@@ -3,12 +3,13 @@ var pointsArray = document.getElementsByClassName('point');
 var animatePoints = function (points) {
     var revealPoint = function (points) {
         maxIndex = points.length;
-        for (var i = 0; i < maxIndex; i++) {
-            points[i].style.opacity = 1;
-            points[i].style.transform = "scaleX(1) rotate(360deg) translateY(0)";
-            points[i].style.msTransform = "scaleX(1) rotate(360deg) translateY(0)";
-            points[i].style.WebkitTransform = "scaleX(1) rotate(360deg) translateY(0)";
-        }
+        var myCallback = function(item) {
+            item.style.opacity = 1;
+            item.style.transform = "scaleX(1) rotate(360deg) translateY(0)";
+            item.style.msTransform = "scaleX(1) rotate(360deg) translateY(0)";
+            item.style.WebkitTransform = "scaleX(1) rotate(360deg) translateY(0)";
+        };
+        forEach(points, myCallback);
     };
 
     revealPoint(points);
