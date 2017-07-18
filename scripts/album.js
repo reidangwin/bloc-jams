@@ -30,6 +30,24 @@ var albumMarconi = {
     ]
 };
 
+var albumMariaDemaio = {
+    title: 'Maria DeMaio',
+    artist: 'Maria DeMaio',
+    label: 'Maria DeMaio',
+    year: '2007',
+    albumArtUrl: 'assets/images/album_covers/maria_demaio_cover.jpg',
+    songs: [
+        {title: 'Her Side', duration: '3:06'},
+        {title: 'Beyond the Pale', duration: '3:38'},
+        {title: 'Champagne & Cigarettes', duration: '4:23'},
+        {title: 'Swell', duration: '3:43'},
+        {title: 'Further Behind', duration: '5:11'},
+        {title: 'In My Head', duration: '3:53'},
+        {title: 'Elanor', duration: '3:57'},
+        {title: 'Fine Line', duration: '3:25'},
+        {title: 'Unglued', duration: '2:48'}
+    ]
+};
 var createSongRow = function (songNumber, songName, songLength) {
     var template =
         '<tr class="album-view-song-item">'
@@ -60,7 +78,24 @@ var setCurrentAlbum = function (album) {
     }
 };
 
+setCurrentAlbum(albumPicasso);
+
+var toggleAlbum = function() {
+    var albumTitle = document.getElementsByClassName('album-view-title')[0].innerText;
+    if (albumTitle === 'The Colors') {
+        setCurrentAlbum(albumMarconi);
+    } else if (albumTitle === 'The Telephone') {
+        setCurrentAlbum(albumMariaDemaio);
+    } else if (albumTitle === 'Maria DeMaio') {
+        setCurrentAlbum(albumPicasso);
+    }
+
+};
 window.onload = function() {
-    setCurrentAlbum(albumPicasso);
+    var albumCover = document.getElementsByClassName('album-cover-art')[0];
+    albumCover.addEventListener('click', function (event) {
+        toggleAlbum();
+    });
+
 };
 
