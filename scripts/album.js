@@ -3,7 +3,7 @@ var createSongRow = function (songNumber, songName, songLength) {
         '<tr class="album-view-song-item">'
         + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
         + '  <td class="song-item-title">' + songName + '</td>'
-        + '  <td class="song-item-duration">' + songLength + '</td>'
+        + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
         + '</tr>'
     ;
     var $row = $(template);
@@ -95,10 +95,11 @@ var setCurrentAlbum = function (album) {
 var updateSeekBarWhileSongPlays = function () {
     if (currentSoundFile) {
         currentSoundFile.bind('timeupdate', function () {
-           var seekBarFillRatio = this.getTime() / this.getDuration();
-           var $seekBar = $('.seek-control .seek-bar');
+            var seekBarFillRatio = this.getTime() / this.getDuration();
+            var $seekBar = $('.seek-control .seek-bar');
 
-           updateSeekPercentage($seekBar, seekBarFillRatio);
+            updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(this.getTime());
         });
     }
 };
@@ -153,6 +154,7 @@ var updatePlayerBarSong = function() {
     $('.currently-playing .artist-name').text(currentAlbum.artist);
     $('.currently-playing .artist-song-mobile').text(`${currentSongFromAlbum.title} - ${currentAlbum.artist}`);
     $('.main-controls .play-pause').html(playerBarPauseButton);
+    setTotalTimeInPlayerBar(currentSongFromAlbum.duration);
 };
 
 var nextSong = function() {
@@ -256,6 +258,21 @@ var togglePlayFromPlayerBar = function() {
          $playPause.html(playerBarPlayButton);
          currentSoundFile.pause();
      }
+};
+
+var setCurrentTimeInPlayerBar = function (currentTime) {
+    $('.current-time').text(filterTimeCode(currentTime));
+};
+
+var setTotalTimeInPlayerBar = function (totalTime) {
+   $('.total-time').text(filterTimeCode(totalTime));
+};
+
+var filterTimeCode = function (timeInSeconds) {
+    var timeNum = parseFloat(timeInSeconds);
+    var wholeMinutes = Math.floor(timeNum / 60);
+    var wholeSeconds = Math.floor(timeNum - wholeMinutes*60).toString().padStart(2, '0');
+    return `${wholeMinutes}:${wholeSeconds}`;
 };
 
 
