@@ -172,6 +172,19 @@ var trackIndex = function(album, song) {
     return album.songs.indexOf(song);
 };
 
+var togglePlayFromPlayerBar = function() {
+    currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+     if ( currentSoundFile.isPaused() ) {
+        currentlyPlayingCell.html(pauseButtonTemplate);
+        $playPause.html(playerBarPauseButton);
+        currentSoundFile.play();
+     } else {
+         currentlyPlayingCell.html(playButtonTemplate);
+         $playPause.html(playerBarPlayButton);
+         currentSoundFile.pause();
+     }
+};
+
 
 
 // Album button templates
@@ -189,10 +202,12 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playPause = $('.main-controls .play-pause');
 
 $(document).ready(function() {
     setCurrentAlbum(albumPicasso);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playPause.click(togglePlayFromPlayerBar);
 });
 
